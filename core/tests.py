@@ -6,7 +6,7 @@ from core.models.user import User
 
 
 class UserCreateAPITest(APITestCase):
-    def test_create_user_also_creates_profile(self):
+    def test_signup_also_creates_profile(self):
         payload = {
             'username': 'alice',
             'email': 'alice@example.com',
@@ -15,7 +15,7 @@ class UserCreateAPITest(APITestCase):
         }
 
         response = self.client.post(
-            reverse('user-create'),
+            reverse('signup'),
             payload,
             format='json'
         )
@@ -31,3 +31,38 @@ class UserCreateAPITest(APITestCase):
         self.assertTrue(user.check_password('pass12345'))
         self.assertEqual(response.data['username'], 'alice')
         self.assertNotIn('password', response.data)
+
+
+class JWTAuthenticationAPITest(APITestCase):
+    def setUp(self):
+        self.password = 'pass12345'
+        self.user = User.objects.create_user(
+            username='bob',
+            email='bob@example.com',
+            password=self.password
+        )
+
+    def test_login_and_access_protected_view(self):
+        login_response = self.client.post(
+            reverse('login'),
+            {
+                'email': self.user.email,
+                'password': self.password,
+            },
+            format='json'
+        )
+
+        self.assertEqual(login_response.status_code, 200)
+        self.assertIn('access', login_response.data)
+        self.assertIn('refresh', login_response.data)
+        self.assertIn('user', login_response.data)
+        self.assertEqual(login_response.data['user']['username'], self.user.username)
+
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Bearer {login_response.data['access']}"
+        )
+        profile_response = self.client.get(reverse('current-user'))
+
+        self.assertEqual(profile_response.status_code, 200)
+        self.assertEqual(profile_response.data['username'], self.user.username)
+        self.assertEqual(profile_response.data['email'], self.user.email)
