@@ -56,10 +56,10 @@ class LoginSerializer(TokenObtainPairSerializer):
         try:
             self.user = User.objects.get(email=email)
         except User.DoesNotExist as exc:
-            raise AuthenticationFailed('No active account found with the given credentials') from exc
+            raise AuthenticationFailed('No active account found with the given credentials') from exc  # noqa: E501
 
         if not self.user.check_password(password) or not self.user.is_active:
-            raise AuthenticationFailed('No active account found with the given credentials')
+            raise AuthenticationFailed('No active account found with the given credentials')  # noqa: E501
 
         refresh = self.get_token(self.user)
 
@@ -67,10 +67,10 @@ class LoginSerializer(TokenObtainPairSerializer):
             'refresh': str(refresh),
             'access': str(refresh.access_token),
             'user': {
-            'id': self.user.id,
-            'username': self.user.username,
-            'email': self.user.email,
-            'phone': self.user.phone,
-            'is_staff': self.user.is_staff,
-        }
+                'id': self.user.id,
+                'username': self.user.username,
+                'email': self.user.email,
+                'phone': self.user.phone,
+                'is_staff': self.user.is_staff,
+            }
         }
