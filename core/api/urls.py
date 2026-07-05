@@ -4,7 +4,11 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
-from core.api.views import CurrentUserAPIView, LoginAPIView, SignupAPIView
+from core.api.views import (
+    CurrentUserAPIView,
+    LoginAPIView,
+    SignupAPIView
+)
 
 urlpatterns = [
     path('signup/', SignupAPIView.as_view(), name='signup'),
