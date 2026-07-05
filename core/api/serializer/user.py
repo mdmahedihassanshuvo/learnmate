@@ -1,13 +1,15 @@
 # REST FRAMEWORK IMPORTS
 from django.db import transaction
 from rest_framework import serializers
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 # LOCAL IMPORTS
 from core.models.profile import Profile
 from core.models.user import User
 
 
-class UserSerializer(serializers.ModelSerializer):
+class SignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
@@ -36,3 +38,39 @@ class UserSerializer(serializers.ModelSerializer):
             name=user.username
         )
         return user
+
+
+class LoginSerializer(TokenObtainPairSerializer):
+    username_field = User.EMAIL_FIELD
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['email'] = user.email
+        return token
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+
+        try:
+            self.user = User.objects.get(email=email)
+        except User.DoesNotExist as exc:
+            raise AuthenticationFailed('No active account found with the given credentials') from exc
+
+        if not self.user.check_password(password) or not self.user.is_active:
+            raise AuthenticationFailed('No active account found with the given credentials')
+
+        refresh = self.get_token(self.user)
+
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+            'user': {
+            'id': self.user.id,
+            'username': self.user.username,
+            'email': self.user.email,
+            'phone': self.user.phone,
+            'is_staff': self.user.is_staff,
+        }
+        }
