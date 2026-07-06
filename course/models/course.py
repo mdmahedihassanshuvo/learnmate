@@ -1,15 +1,13 @@
+# DJANGO IMPORTS
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+# LOCAL IMPORTS
+from core.models import BaseModel
 
-class Course(models.Model):
-    LEVEL_CHOICES = (
-        ("beginner", "Beginner"),
-        ("intermediate", "Intermediate"),
-        ("advanced", "Advanced"),
-    )
 
+class Course(BaseModel):
     title = models.CharField(
         _("Course Title"),
         max_length=255
@@ -41,12 +39,6 @@ class Course(models.Model):
         on_delete=models.PROTECT,
         related_name="courses"
     )
-    level = models.CharField(
-        _("Course Level"),
-        max_length=20,
-        choices=LEVEL_CHOICES,
-        default="beginner"
-    )
     price = models.DecimalField(
         _("Price"),
         max_digits=10,
@@ -60,18 +52,6 @@ class Course(models.Model):
     is_published = models.BooleanField(
         _("Is Published"),
         default=False
-    )
-    is_active = models.BooleanField(
-        _("Is Active"),
-        default=True
-    )
-    created_at = models.DateTimeField(
-        _("Created At"),
-        auto_now_add=True
-    )
-    updated_at = models.DateTimeField(
-        _("Updated At"),
-        auto_now=True
     )
 
     class Meta:
