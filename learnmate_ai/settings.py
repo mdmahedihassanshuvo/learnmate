@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'core',
+    'course',
 ]
 
 AUTH_USER_MODEL = 'core.User'
