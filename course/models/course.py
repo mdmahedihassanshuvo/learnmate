@@ -63,7 +63,7 @@ class Course(BaseModel):
         return self.title
 
 
-class CourseModule(models.Model):
+class CourseModule(BaseModel):
     course = models.ForeignKey(
         Course,
         on_delete=models.CASCADE,
@@ -78,22 +78,6 @@ class CourseModule(models.Model):
         blank=True,
         null=True
     )
-    order = models.PositiveIntegerField(
-        _("Module Order"),
-        default=0
-    )
-    is_active = models.BooleanField(
-        _("Is Active"),
-        default=True
-    )
-    created_at = models.DateTimeField(
-        _("Created At"),
-        auto_now_add=True
-    )
-    updated_at = models.DateTimeField(
-        _("Updated At"),
-        auto_now=True
-    )
 
     class Meta:
         verbose_name = _("Course Module")
@@ -105,7 +89,7 @@ class CourseModule(models.Model):
         return f"{self.course.title} - {self.title}"
 
 
-class Lesson(models.Model):
+class Lesson(BaseModel):
     LESSON_TYPE_CHOICES = (
         ("video", "Video"),
         ("text", "Text"),
@@ -154,18 +138,6 @@ class Lesson(models.Model):
     is_preview = models.BooleanField(
         _("Is Preview Lesson"),
         default=False
-    )
-    is_active = models.BooleanField(
-        _("Is Active"),
-        default=True
-    )
-    created_at = models.DateTimeField(
-        _("Created At"),
-        auto_now_add=True
-    )
-    updated_at = models.DateTimeField(
-        _("Updated At"),
-        auto_now=True
     )
 
     class Meta:
