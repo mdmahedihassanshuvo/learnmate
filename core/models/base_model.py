@@ -13,6 +13,9 @@ class BaseModel(models.Model):
     is_draft = models.BooleanField(
         default=False
     )
+    is_deleted = models.BooleanField(
+        default=False
+    )
     order = models.CharField(
         max_length=100, null=True, blank=True
     )
