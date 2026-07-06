@@ -3,10 +3,10 @@ from django.conf import settings
 from django.db import models
 
 # LOCAL IMPORTS
-from .common_model import CommonModel
+from .base_model import BaseModel
 
 
-class Profile(CommonModel):
+class Profile(BaseModel):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -36,7 +36,6 @@ class Profile(CommonModel):
     nationality = models.CharField(
         max_length=100, null=True, blank=True
     )
-
 
     def __str__(self):
         return self.name
