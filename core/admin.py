@@ -2,7 +2,13 @@
 from django.contrib import admin
 
 # LOCAL IMPORTS
-from .models import User, Profile
+from .models import (
+    User,
+    Profile,
+    SiteConfig,
+    Menu,
+    MenuSection,
+)
 
 
 @admin.register(User)
@@ -30,4 +36,39 @@ class ProfileAdmin(admin.ModelAdmin):
         'fathers_name',
     )
     search_fields = ('user__email', 'user__first_name', 'user__last_name')
+    ordering = ('id',)
+
+
+@admin.register(SiteConfig)
+class SiteConfigAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'name',
+    )
+    ordering = ('id',)
+
+
+@admin.register(Menu)
+class MenuAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'code',
+        'name_en',
+        'name_bn',
+        'site',
+    )
+    search_fields = ('code', 'name_en', 'name_bn')
+    ordering = ('id',)
+
+
+@admin.register(MenuSection)
+class MenuSectionAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'menu',
+        'order',
+        'name',
+        'name_bn',
+    )
+    search_fields = ('menu__code', 'name', 'name_bn')
     ordering = ('id',)
