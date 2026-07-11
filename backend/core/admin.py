@@ -8,6 +8,7 @@ from .models import (
     SiteConfig,
     Menu,
     MenuSection,
+    StatisticalDashboard
 )
 
 
@@ -71,4 +72,23 @@ class MenuSectionAdmin(admin.ModelAdmin):
         'name_bn',
     )
     search_fields = ('menu__code', 'name', 'name_bn')
+    ordering = ('id',)
+
+
+@admin.register(StatisticalDashboard)
+class StatisticalDashboardAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'site',
+        'title_en',
+        'title_bn',
+        'div_id',
+        'widget_type',
+    )
+    search_fields = (
+        'site__name',
+        'title_en',
+        'title_bn',
+        'div_id'
+    )
     ordering = ('id',)
