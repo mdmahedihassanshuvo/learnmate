@@ -7,11 +7,13 @@ from .menu import (
     MenuSection,
     DashboardLine
 )
+from .widgets import StatisticalDashboard
 
 __all__ = [
     'User',
     'Profile',
     'BaseModel',
+    'StatisticalDashboard',
     'SiteConfig',
     'Menu',
     'MenuSection',
