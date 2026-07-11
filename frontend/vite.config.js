@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig(({ command, mode }) => {
   const isGhPages = mode === 'ghpages'
   return {
-    base: isGhPages ? '/learnmate/' : '/',
+    base: isGhPages ? '/' : command === 'build' ? '/learnmate/' : '/',
     plugins: [
       tailwindcss(),
       react()
