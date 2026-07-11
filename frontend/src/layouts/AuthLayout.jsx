@@ -2,7 +2,7 @@
 import React from "react";
 import { Outlet } from 'react-router';
 import { Player } from "@lottiefiles/react-lottie-player";
-import groovyWalkAnimation from "../assets/login.json";
+import groovyWalkAnimation from "../assets/Login.json";
 
 const AuthLayout = () => {
     return (
