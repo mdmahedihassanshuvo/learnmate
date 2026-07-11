@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     const navigate = useNavigate();
