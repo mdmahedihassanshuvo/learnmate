@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layouts/RootLayout";
 import Home from "../pages/home/home/Home";
 import AuthLayout from "../layouts/AuthLayout";
@@ -29,5 +29,8 @@ export const router = createBrowserRouter([
         Component: Register,
       }
     ]
+  },
+  {
+    basename: "/learnmate",
   }
 ]);
