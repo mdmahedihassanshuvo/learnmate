@@ -15,6 +15,7 @@ import {
   FaUserGraduate,
   FaUsersCog,
 } from "react-icons/fa";
+import { NavLink } from "react-router";
 
 const Home = () => {
   return (
@@ -34,12 +35,12 @@ const Home = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="btn btn-ghost hidden text-slate-300 hover:bg-white/10 md:flex">
-              Home
-            </button>
-            <button className="btn btn-ghost hidden text-slate-300 hover:bg-white/10 md:flex">
+            <NavLink to="/dashboard" className="btn btn-ghost hidden text-slate-300 hover:bg-white/10 md:flex">
+              Dashboard
+            </NavLink>
+            <NavLink to="/login/" className="btn btn-ghost hidden text-slate-300 hover:bg-white/10 md:flex">
               Login
-            </button>
+            </NavLink>
 
             <button className="btn border-none bg-gradient-to-r from-cyan-400 to-indigo-500 text-white hover:from-cyan-500 hover:to-indigo-600">
               Get Started
