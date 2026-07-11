@@ -15,7 +15,7 @@ import {
   FaUserGraduate,
   FaUsersCog,
 } from "react-icons/fa";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 
 const Home = () => {
   return (
