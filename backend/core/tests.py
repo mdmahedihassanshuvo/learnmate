@@ -1,4 +1,5 @@
 from django.urls import reverse
+from django.contrib.auth.models import Group
 from rest_framework.test import APITestCase
 
 from core.models.profile import Profile
@@ -57,6 +58,7 @@ class JWTAuthenticationAPITest(APITestCase):
         self.assertIn('refresh', login_response.data)
         self.assertIn('user', login_response.data)
         self.assertEqual(login_response.data['user']['username'], self.user.username)
+        self.assertFalse(login_response.data['user']['is_teacher'])
 
         self.client.credentials(
             HTTP_AUTHORIZATION=f"Bearer {login_response.data['access']}"
@@ -66,3 +68,20 @@ class JWTAuthenticationAPITest(APITestCase):
         self.assertEqual(profile_response.status_code, 200)
         self.assertEqual(profile_response.data['username'], self.user.username)
         self.assertEqual(profile_response.data['email'], self.user.email)
+        self.assertFalse(profile_response.data['is_teacher'])
+
+    def test_login_identifies_teacher_group_members(self):
+        teacher_group = Group.objects.create(name='is_teacher')
+        self.user.groups.add(teacher_group)
+
+        response = self.client.post(
+            reverse('login'),
+            {
+                'email': self.user.email,
+                'password': self.password,
+            },
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.data['user']['is_teacher'])
