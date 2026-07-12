@@ -4,6 +4,11 @@ import Home from "../pages/home/home/Home";
 import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/auth/login/Login";
 import Register from "../pages/auth/register/Register";
+import DashboardRoute from "./DashboardRoute";
+
+const basename = import.meta.env.BASE_URL === "/"
+  ? "/"
+  : import.meta.env.BASE_URL.replace(/\/$/, "");
 
 export const router = createBrowserRouter([
   {
@@ -13,6 +18,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
+      },
+      {
+        path: "dashboard/",
+        Component: DashboardRoute,
       },
     ],
   },
@@ -30,7 +39,4 @@ export const router = createBrowserRouter([
       }
     ]
   },
-  {
-    basename: "/learnmate",
-  }
-]);
+], { basename });
