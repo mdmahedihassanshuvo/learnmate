@@ -28,7 +28,7 @@ const StudentDashboard = () => {
         },
         {
             name: "My Courses",
-            path: "/dashboard/courses/",
+            path: "/courses/",
             icon: (
                 <svg
                     className="h-5 w-5"
