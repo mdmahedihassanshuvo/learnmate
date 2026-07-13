@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { clearAuth, getAuth } from "../../../auth/authStorage";
+import { apiUrl } from "../../../lib/apiUrl";
 
 const NavBar = () => {
     const navigate = useNavigate();
@@ -45,7 +46,7 @@ const NavBar = () => {
         try {
             if (auth?.refresh && auth?.access) {
                 await axios.post(
-                    "/api/v1/core/logout/",
+                    apiUrl("/api/v1/core/logout/"),
                     { refresh: auth.refresh },
                     {
                         headers: {
@@ -68,8 +69,8 @@ const NavBar = () => {
         <nav className="navbar w-full border-b border-slate-200 bg-white px-4 py-2 shadow-sm lg:px-8">
             {/* Logo */}
             <div className="flex-1">
-                <a
-                    href="/"
+                <Link
+                    to="/"
                     className="flex items-center gap-3 text-xl font-bold text-slate-800"
                 >
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-blue-500 text-white shadow-md">
@@ -80,7 +81,7 @@ const NavBar = () => {
                         LearnMate
                         <span className="ml-1 text-violet-600">AI</span>
                     </span>
-                </a>
+                </Link>
             </div>
 
             {/* Profile Dropdown */}

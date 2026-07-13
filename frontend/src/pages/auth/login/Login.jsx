@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { saveAuth } from "../../../auth/authStorage";
+import { apiUrl } from "../../../lib/apiUrl";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ const Login = () => {
         setServerMessage("");
 
         try {
-            const response = await axios.post("/api/v1/core/login/", data);
+            const response = await axios.post(apiUrl("/api/v1/core/login/"), data);
             saveAuth(response.data);
             navigate("/dashboard/", { replace: true });
         } catch (error) {

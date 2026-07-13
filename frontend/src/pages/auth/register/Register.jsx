@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { apiUrl } from "../../../lib/apiUrl";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Register = () => {
         setServerMessage("");
 
         try {
-            await axios.post("/api/v1/core/signup/", data);
+            await axios.post(apiUrl("/api/v1/core/signup/"), data);
             navigate("/login/", { replace: true });
         } catch (error) {
             const responseData = error.response?.data;
