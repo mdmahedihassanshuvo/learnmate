@@ -1,10 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layouts/RootLayout";
-import Home from "../pages/home/home/Home";
 import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/auth/login/Login";
 import Register from "../pages/auth/register/Register";
 import DashboardRoute from "./DashboardRoute";
+import HomeRoute from "./HomeRoute";
+import NotFound from "../pages/404/NotFound";
 
 const basename = import.meta.env.BASE_URL === "/"
   ? "/"
@@ -17,7 +18,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: Home,
+        Component: HomeRoute,
       },
       {
         path: "dashboard/",
@@ -38,5 +39,9 @@ export const router = createBrowserRouter([
         Component: Register,
       }
     ]
+  },
+  {
+    path: "*",
+    Component: NotFound,
   },
 ], { basename });
