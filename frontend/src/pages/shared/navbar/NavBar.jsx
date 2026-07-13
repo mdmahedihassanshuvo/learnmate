@@ -4,7 +4,7 @@ const NavBar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <nav className="navbar border-b border-slate-200 bg-white px-4 py-2 shadow-sm lg:px-8">
+        <nav className="navbar w-full border-b border-slate-200 bg-white px-4 py-2 shadow-sm lg:px-8">
             {/* Logo */}
             <div className="flex-1">
                 <a
