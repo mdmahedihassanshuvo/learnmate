@@ -6,14 +6,13 @@ import { defineConfig } from 'vite'
 export default defineConfig(({ command, mode }) => {
   const isGhPages = mode === 'ghpages'
   return {
-    base: isGhPages ? '/' : command === 'build' ? '/' : '/',
+    base: isGhPages ? '/' : command === 'build' ? '/learnmate/' : '/',
     plugins: [
       tailwindcss(),
       react()
     ],
     build: {
-      outDir: isGhPages ? path.resolve(__dirname, 'dist') : '',
-      emptyOutDir: true
+      outDir: "dist",
     },
     server: {
       proxy: {
