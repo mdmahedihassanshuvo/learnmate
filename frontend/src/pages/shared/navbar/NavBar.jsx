@@ -1,16 +1,39 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { clearAuth, getAuth } from "../../../auth/authStorage";
 
 const NavBar = () => {
     const navigate = useNavigate();
+    const dropdownRef = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const auth = getAuth();
     const user = auth?.user;
     const displayName = user?.username || user?.email || "User";
     const roleLabel = user?.is_teacher ? "Teacher" : "Student";
+
+    useEffect(() => {
+        const handlePointerDown = (event) => {
+            if (!dropdownRef.current?.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+
+        const handleEscape = (event) => {
+            if (event.key === "Escape") {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handlePointerDown);
+        document.addEventListener("keydown", handleEscape);
+
+        return () => {
+            document.removeEventListener("mousedown", handlePointerDown);
+            document.removeEventListener("keydown", handleEscape);
+        };
+    }, []);
 
     const handleLogout = async () => {
         if (isLoggingOut) {
@@ -61,11 +84,15 @@ const NavBar = () => {
             </div>
 
             {/* Profile Dropdown */}
-            <div className="dropdown dropdown-end rounded-2xl">
+            <div
+                ref={dropdownRef}
+                className="relative rounded-2xl"
+            >
                 <button
                     type="button"
-                    tabIndex={0}
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => setIsOpen((previous) => !previous)}
+                    aria-expanded={isOpen}
+                    aria-haspopup="menu"
                     className="flex items-center gap-3 rounded-4xl border border-slate-200 bg-slate-50 px-3 py-2 transition-all duration-200 hover:border-violet-300 hover:bg-violet-50"
                 >
                     {/* Profile image */}
@@ -107,11 +134,21 @@ const NavBar = () => {
 
                 {/* Dropdown Menu */}
                 <ul
-                    tabIndex={0}
-                    className="menu dropdown-content z-50 mt-3 w-56 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl"
+                    className={`menu absolute right-0 top-full z-50 mt-3 w-56 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl transition-all duration-150 ${
+                        isOpen
+                            ? "visible translate-y-0 opacity-100"
+                            : "pointer-events-none invisible -translate-y-2 opacity-0"
+                    }`}
                 >
                     <li>
-                        <a className="flex items-center gap-3 rounded-xl py-3 text-slate-700 hover:bg-violet-50 hover:text-violet-700">
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setIsOpen(false);
+                                navigate("/dashboard/profile/");
+                            }}
+                            className="flex items-center gap-3 rounded-xl py-3 text-slate-700 hover:bg-violet-50 hover:text-violet-700"
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-5 w-5"
@@ -128,11 +165,15 @@ const NavBar = () => {
                             </svg>
 
                             Profile
-                        </a>
+                        </button>
                     </li>
 
                     <li>
-                        <a className="flex items-center gap-3 rounded-xl py-3 text-slate-700 hover:bg-violet-50 hover:text-violet-700">
+                        <button
+                            type="button"
+                            onClick={() => setIsOpen(false)}
+                            className="flex w-full items-center gap-3 rounded-xl py-3 text-left text-slate-700 hover:bg-violet-50 hover:text-violet-700"
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-5 w-5"
@@ -149,7 +190,7 @@ const NavBar = () => {
                             </svg>
 
                             Settings
-                        </a>
+                        </button>
                     </li>
 
                     <div className="my-1 border-t border-slate-200" />
