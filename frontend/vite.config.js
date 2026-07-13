@@ -11,6 +11,10 @@ export default defineConfig(({ command, mode }) => {
       tailwindcss(),
       react()
     ],
+    build: {
+      outDir: isGhPages ? path.resolve(__dirname, 'dist') : '',
+      emptyOutDir: true
+    },
     server: {
       proxy: {
         '/api': {
