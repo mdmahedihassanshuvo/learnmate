@@ -6,6 +6,8 @@ import Register from "../pages/auth/register/Register";
 import DashboardRoute from "./DashboardRoute";
 import HomeRoute from "./HomeRoute";
 import NotFound from "../pages/404/NotFound";
+import Profile from "../pages/shared/profile/Profile";
+import CourseRoute from "./CourseRoute";
 
 const basename = import.meta.env.BASE_URL === "/"
   ? "/"
@@ -23,6 +25,16 @@ export const router = createBrowserRouter([
       {
         path: "dashboard/",
         Component: DashboardRoute,
+        children: [
+          {
+            path: "profile/",
+            Component: Profile,
+          },
+          {
+            path: "courses/",
+            Component: CourseRoute,
+          },
+        ],
       },
     ],
   },
