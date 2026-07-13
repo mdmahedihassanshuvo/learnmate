@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { saveAuth } from "../../../auth/authStorage";
 
 const Login = () => {
@@ -86,7 +86,7 @@ const Login = () => {
                         </button>
                     </fieldset>
                     <p className="text-center text-sm text-gray-500">
-                        Don't have an account? <a href="/register/" className="link link-hover">Register</a>
+                        Don't have an account? <Link href="/register/" className="link link-hover">Register</Link>
                     </p>
                 </form>
             </div>
