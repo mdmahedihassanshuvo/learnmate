@@ -1,12 +1,12 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig(({ command, mode }) => {
   const isGhPages = mode === 'ghpages'
   return {
-    base: isGhPages ? '/' : command === 'build' ? '/learnmate/' : '/',
+    base: isGhPages ? '/' : command === 'build' ? '/' : '/',
     plugins: [
       tailwindcss(),
       react()
