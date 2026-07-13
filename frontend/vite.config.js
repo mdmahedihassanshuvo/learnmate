@@ -3,6 +3,13 @@ import react from "@vitejs/plugin-react";
 import process from "node:process";
 import { defineConfig, loadEnv } from "vite";
 
+const inferGithubPagesBase = () => {
+  const repository = process.env.GITHUB_REPOSITORY || "";
+  const repositoryName = repository.split("/")[1];
+
+  return repositoryName ? `/${repositoryName}/` : "/learnmate/";
+};
+
 const normalizeBasePath = (value = "/") => {
   const trimmed = value.trim();
 
@@ -16,8 +23,12 @@ const normalizeBasePath = (value = "/") => {
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
+  const githubPagesBase = inferGithubPagesBase();
   const base = normalizeBasePath(
-    env.VITE_APP_BASE_PATH || (mode === "ghpages" ? "/learnmate/" : "/")
+    env.VITE_APP_BASE_PATH ||
+      (process.env.GITHUB_ACTIONS === "true" || mode === "ghpages"
+        ? githubPagesBase
+        : "/")
   );
 
   return {
