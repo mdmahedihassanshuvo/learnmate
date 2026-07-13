@@ -86,7 +86,7 @@ const Login = () => {
                         </button>
                     </fieldset>
                     <p className="text-center text-sm text-gray-500">
-                        Don't have an account? <Link href="/register/" className="link link-hover">Register</Link>
+                        Don't have an account? <Link to="/register/" className="link link-hover">Register</Link>
                     </p>
                 </form>
             </div>
