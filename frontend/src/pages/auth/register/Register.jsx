@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -120,7 +120,7 @@ const Register = () => {
                             </button>
                         </fieldset>
                         <p className="text-center text-sm text-gray-500">
-                            Already have an account? <a href="/login/" className="link link-hover">Login</a>
+                            Already have an account? <Link to="/login/" className="link link-hover">Login</Link>
                         </p>
                     </div>
                 </form>
