@@ -85,3 +85,33 @@ class JWTAuthenticationAPITest(APITestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.data['user']['is_teacher'])
+
+    def test_logout_blacklists_refresh_token(self):
+        login_response = self.client.post(
+            reverse('login'),
+            {
+                'email': self.user.email,
+                'password': self.password,
+            },
+            format='json'
+        )
+
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Bearer {login_response.data['access']}"
+        )
+        logout_response = self.client.post(
+            reverse('logout'),
+            {'refresh': login_response.data['refresh']},
+            format='json'
+        )
+
+        self.assertEqual(logout_response.status_code, 200)
+
+        self.client.credentials()
+        refresh_response = self.client.post(
+            reverse('token-refresh'),
+            {'refresh': login_response.data['refresh']},
+            format='json'
+        )
+
+        self.assertEqual(refresh_response.status_code, 401)
