@@ -1,7 +1,45 @@
+import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { clearAuth, getAuth } from "../../../auth/authStorage";
 
 const NavBar = () => {
+    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const auth = getAuth();
+    const user = auth?.user;
+    const displayName = user?.username || user?.email || "User";
+    const roleLabel = user?.is_teacher ? "Teacher" : "Student";
+
+    const handleLogout = async () => {
+        if (isLoggingOut) {
+            return;
+        }
+
+        setIsLoggingOut(true);
+
+        try {
+            if (auth?.refresh && auth?.access) {
+                await axios.post(
+                    "/api/v1/core/logout/",
+                    { refresh: auth.refresh },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${auth.access}`,
+                        },
+                    }
+                );
+            }
+        } catch (error) {
+            console.warn("Logout request failed:", error);
+        } finally {
+            clearAuth();
+            setIsOpen(false);
+            navigate("/login/", { replace: true });
+            setIsLoggingOut(false);
+        }
+    };
 
     return (
         <nav className="navbar w-full border-b border-slate-200 bg-white px-4 py-2 shadow-sm lg:px-8">
@@ -43,10 +81,10 @@ const NavBar = () => {
                     {/* User Information */}
                     <div className="hidden text-left sm:block">
                         <p className="text-sm font-semibold text-slate-800">
-                            Mahedi Hassan
+                            {displayName}
                         </p>
                         <p className="text-xs text-slate-500">
-                            Teacher
+                            {roleLabel}
                         </p>
                     </div>
 
@@ -117,7 +155,12 @@ const NavBar = () => {
                     <div className="my-1 border-t border-slate-200" />
 
                     <li>
-                        <button className="flex items-center gap-3 rounded-xl py-3 text-red-500 hover:bg-red-50 hover:text-red-600">
+                        <button
+                            type="button"
+                            onClick={handleLogout}
+                            disabled={isLoggingOut}
+                            className="flex w-full items-center gap-3 rounded-xl py-3 text-left text-red-500 hover:bg-red-50 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-70"
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-5 w-5"
@@ -133,7 +176,7 @@ const NavBar = () => {
                                 />
                             </svg>
 
-                            Logout
+                            {isLoggingOut ? "Logging out..." : "Logout"}
                         </button>
                     </li>
                 </ul>
