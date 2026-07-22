@@ -103,17 +103,8 @@ const Profile = () => {
                                 <h1 id="profile-heading" className="text-2xl font-extrabold tracking-tight sm:text-4xl">
                                     {displayName}
                                 </h1>
-                                <p className="mt-1 text-sm text-slate-300 sm:text-base">
-                                    Your LearnMate identity and learning account
-                                </p>
                             </div>
                         </div>
-
-                        {user.id && (
-                            <p className="text-sm text-slate-400">
-                                Account ID <span className="font-semibold text-slate-200">#{user.id}</span>
-                            </p>
-                        )}
                     </div>
                 </div>
             </div>
@@ -201,26 +192,6 @@ const Profile = () => {
                     ))}
                 </div>
             </article>
-
-            <div className="flex flex-col gap-4 rounded-3xl border border-violet-100 bg-gradient-to-r from-violet-50 to-cyan-50 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
-                <div className="flex items-start gap-4">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-violet-600 shadow-sm">
-                        <FiCompass className="h-5 w-5" aria-hidden="true" />
-                    </div>
-                    <div>
-                        <h2 className="font-bold text-slate-900">Ready to keep learning?</h2>
-                        <p className="mt-1 text-sm text-slate-600">
-                            Return to your dashboard to continue where you left off.
-                        </p>
-                    </div>
-                </div>
-                <Link
-                    to="/dashboard/"
-                    className="inline-flex min-h-11 items-center justify-center rounded-xl bg-slate-950 px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-violet-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 focus-visible:ring-offset-2"
-                >
-                    Open dashboard
-                </Link>
-            </div>
         </section>
     );
 };
